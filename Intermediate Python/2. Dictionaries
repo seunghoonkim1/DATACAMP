@@ -1,0 +1,46 @@
+# 2. DICTIONARY
+# 2-1. WHY USE DICTIONARIES?
+# Motivation of using dictionary is due to too much work for indexes.
+# See below for example.
+# countries = ['spain', 'france', 'germany', 'norway']
+# capitals = ['madrid', 'paris', 'berlin', 'oslo']
+# ind_ger=countries.index('germany')
+# print(capitals[ind_ger])
+# result --------> berlin.
+# * The above is by storing the index of germany from the countries list to ind_ger.
+# * Then, by using this index to access the same index in the capitals list.
+# 
+# 2-2. TO CREATE DICTIONARIES
+# See below for example.
+# countries = ['spain', 'france', 'germany', 'norway']
+# capitals = ['madrid', 'paris', 'berlin', 'oslo']
+# europe = {'spain':'madrid', 'france':'paris', 'germany':'berlin', 'norway':'oslo'}
+# Countries and capitals combined will be europe.
+# Use curly brackets.
+#
+# 2-3. HOW TO ACCESS DICTIONARIES
+# Definition of dictionary
+# europe = {'spain':'madrid', 'france':'paris', 'germany':'berlin', 'norway':'oslo' }
+# Print out the keys in europe
+# print(europe.keys())
+# result ------> dict_keys(['spain', 'france', 'germany', 'norway'])
+# Print out value that belongs to key 'norway'
+# print(europe["norway"])
+# result ------> oslo
+#
+# 2-4 DICTIONARY MANIPULCATION
+# Adding Dictionary is same as assigning
+# ex. europe["germany"] = "berlin"
+# If germany was not in europe Dictonary before, berlin will be added as germany:berlin
+# If germany was in Dictionary, the value before will change to germany:berlin.
+# 
+# for adding a dictionary under dictionary, do as below.
+# 1. Create another dictionary. ex / data = { "capital":"rome", "population":59.83 }
+# 2. Add new dictionary to the other dictionary. ex / europe["italy"] = data
+#
+# To delete a component of dictionary, do as below.
+# del(europe["italy"])
+#
+# To check dictionary, find out boolean.
+# print("italy" in europe)
+# If True than it's in the dictionary
