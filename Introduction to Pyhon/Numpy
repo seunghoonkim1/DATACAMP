@@ -43,4 +43,60 @@
 # print(type(np_baseball))
 #
 ## Print out the shape of np_baseball
-#print(np_baseball.shape) <- result is (4,2)
+# print(np_baseball.shape) <- result is (4,2)
+#
+# 1-4 2D NUMPY ARRAY
+## baseball is available as a regular list of lists
+#
+## Import numpy package
+# import numpy as np
+#
+## Create np_baseball (2 cols)
+# np_baseball = np.array(baseball)
+#
+## Print out the 50th row of np_baseball
+# print(np_baseball[49,:]) <- indexes before commas refer to rows and indexes after comma refer to column.
+#
+## Select the entire second column of np_baseball: np_weight_lb
+# np_weight_lb = np_baseball[:,1] <- : is for slicing. In this situation, this means to include all rows
+#
+## Print out height of 124th player
+# print(np_baseball[123,0])
+#
+# 1-5 NUMPY STATISTICS
+# 1-5-1 MEAN AND MEDIAN
+# # np_baseball is available
+#
+## Import numpy
+# import numpy as np
+#
+## Create np_height_in from np_baseball
+# np_height_in = np_baseball[:,0]
+#
+## Print out the mean of np_height_in
+# print(np.mean(np_height_in))
+#
+## Print out the median of np_height_in
+# print(np.median(np_height_in))
+#
+# 1-5-2 STANDARD DEVIATION & CORRELATION
+# # np_baseball is available
+#
+## Import numpy
+# import numpy as np
+#
+## Print mean height (first column)
+# avg = np.mean(np_baseball[:,0])
+# print("Average: " + str(avg))
+#
+## Print median height. Replace 'None'
+# med = np.median(np_baseball[:,0])
+# print("Median: " + str(med))
+#
+## Print out the standard deviation on height. Replace 'None'
+# stddev = np.std(np_baseball[:,0])
+# print("Standard Deviation: " + str(stddev))
+#
+## Print out correlation between first and second column. Replace 'None'
+# corr = np.corrcoef(np_baseball[:,0],np_baseball[:,1])
+# print("Correlation: " + str(corr))
