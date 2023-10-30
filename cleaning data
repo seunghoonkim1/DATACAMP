@@ -1,0 +1,20 @@
+# 1. Cleaning DataSet
+# import numpy as np
+# import pandas as pd
+#
+# Fill in blank cells 
+#  df.fillna(Number or "str")
+#     df.fillna(df.mean(), inplace=True)<- This fills all blank cells with mean value from each column. A Column blank cells get A column mean, B column gets B column mean. 
+#
+# Drop row or column  
+# df.drop(for row type in row index number, for column type in columns=[column, column] or [column,column], axis=1)
+
+# Replace dataframe 
+#  df.replace("str what to replace", "str what to replace with")
+#     df.replace("?", np.NaN)<- replace ? value in the dataframe with NaN. if you put "NaN" then this will not be a true NaN but a string.
+#
+# how to for loop in each columns in a dataframe and fill with most counted values. Check blank at the end.
+# for col in dataframe.columns:
+#  if dataframe[col].dtypes == 'object':
+#  dataframe = dataframe.fillna(dataframe[col].value_counts().index[0])
+# print(dataframe.isnull().sum())
