@@ -1,5 +1,45 @@
 class Employee:
     def __init__(self, name, salary=30000):
+        self.name = name
+        self.salary = salary
+
+    def give_raise(self, amount):
+        self.salary += amount
+
+        
+class Manager(Employee):
+  # Add a constructor 
+    def __init__(self, name, salary=50000, project=None):
+
+        # Call the parent's constructor   
+        Employee.__init__(self, name, salary)
+
+        # Assign project attribute
+        self.project = project
+
+  
+    def display(self):
+        print("Manager ", self.name)
+
+
+class BankAccount:
+    def __init__(self, number, balance=0):
+        self.number, self.balance = number, balance
+      
+    def withdraw(self, amount):
+        self.balance -= amount 
+
+    # MODIFY to add a check for the type()
+    def __eq__(self, other):
+        if self.number == other.number:
+            return(type(self) == type(other))
+
+acct = BankAccount(873555333)
+pn = Phone(873555333)
+print(acct == pn)
+
+class Employee:
+    def __init__(self, name, salary=30000):
         self.name, self.salary = name, salary
       
 
