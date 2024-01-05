@@ -1,0 +1,127 @@
+# Import packages
+import numpy as np
+import pandas as pd
+from statsmodels.stats.proportion import proportions_ztest
+import pingouin
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the dataset
+drug_safety = pd.read_csv("drug_safety.csv")
+
+# Start coding here...
+print(drug_safety.head())
+
+   age   sex   trx  week  wbc  rbc adverse_effects  num_effects
+0   62  male  Drug     0  7.3  5.1              No            0
+1   62  male  Drug     1  NaN  NaN              No            0
+2   62  male  Drug    12  5.6  5.0              No            0
+3   62  male  Drug    16  NaN  NaN              No            0
+4   62  male  Drug     2  6.6  5.1              No            0
+
+adv_eff_by_trx = drug_safety.groupby("trx")["adverse_effects"].value_counts()
+adv_eff_by_trx_totals = adv_eff_by_trx.groupby("trx").sum()
+
+## Two-sample proportions z-test
+
+# getting the count of successes and total counts
+# array of yes counts for each group
+yes = [adv_eff_by_trx['Drug']['Yes'], adv_eff_by_trx['Placebo']['Yes']]
+
+# array of total counts for each group
+total_count = [adv_eff_by_trx_totals['Drug'], adv_eff_by_trx_totals['Placebo']]
+
+# z-test for two sided on two proportions
+two_sample_results = proportions_ztest(yes, total_count)
+
+# save p-value as two_sample_p_value
+two_sample_p_value = two_sample_results[1]
+
+## Association between adverse effect and the groups
+# performing a Chi-square test of independence
+# determine if num_effects and trx are independent
+num_effects_groups = pingouin.chi2_independence(data=drug_safety, x='num_effects', y='trx')
+print(num_effects_groups)
+
+(trx                 Drug      Placebo
+num_effects                          
+0            9703.794883  4863.205117
+1             960.587096   481.412904
+2              58.621126    29.378874
+3               3.996895     2.003105,
+
+trx          Drug  Placebo
+num_effects               
+0            9703     4864
+1             956      486
+2              63       25
+3               5        1,
+
+              test    lambda      chi2  dof      pval    cramer     power
+0             pearson  1.000000  1.799644  3.0  0.615012  0.010572  0.176275
+1        cressie-read  0.666667  1.836006  3.0  0.607131  0.010678  0.179153
+2      log-likelihood  0.000000  1.922495  3.0  0.588648  0.010926  0.186033
+3       freeman-tukey -0.500000  2.001752  3.0  0.572043  0.011149  0.192379
+4  mod-log-likelihood -1.000000  2.096158  3.0  0.552690  0.011409  0.199984
+5              neyman -2.000000  2.344303  3.0  0.504087  0.012066  0.220189)
+
+# extract the p-value
+num_effects_p_value = num_effects_groups[2]['pval'][0]
+print(num_effects_p_value)
+
+0.6150123339426765
+
+## Inspecting whether age is normally distributed
+# Create a histogram to check age and trx distribution
+sns.histplot(data=drug_safety, x='age', hue='trx')
+
+# Optionally - confirm the histogram's output by conducting a normality test
+# To choose between unpaired t-test and Wilcoxon-Mann-Whitney test
+normality = pingouin.normality(
+    data=drug_safety,
+    dv='age',
+    group='trx',
+    method='shapiro', # the default
+    alpha=0.05) # 0.05 is also the default
+print(normality)
+
+# Select the age of the Drug group. using loc and nonloc method
+age_trx = drug_safety.loc[drug_safety["trx"] == "Drug", "age"]
+print(age_trx)
+
+                W          pval  normal
+trx                                    
+Drug     0.976785  2.189152e-38   False
+Placebo  0.975595  2.224950e-29   False
+0        62
+1        62
+2        62
+3        62
+4        62
+         ..
+16074    60
+16075    60
+16092    68
+16093    68
+16094    68
+
+age_list = drug_safety[['trx','age']]
+print(age_list[age_list['trx']=='Drug'])
+
+# Select the age of placebo group
+age_placebo = drug_safety.loc[drug_safety['trx']=='Placebo', 'age']
+
+# Since the data distribution is not normal
+# Conduct a two-sided Mann-Whitney U test
+age_group_effects = pingouin.mwu(age_trx, age_placebo)
+print(age_group_effects)
+
+[10727 rows x 2 columns]
+          U-val alternative     p-val      RBC      CLES
+MWU  29149339.5   two-sided  0.256963 -0.01093  0.505465
+
+# Extract the p-value
+age_group_effects_p_value = age_group_effects['p-val']
+
+MWU    0.256963
+Name: p-val, dtype: float64
